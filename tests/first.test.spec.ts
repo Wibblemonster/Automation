@@ -19,6 +19,6 @@ test('check H1 heading', async ({ page }) => {
   await page.getByRole('tab', { name: 'Manufacturers' }).click();
   await page.getByRole('link', { name: 'Dyson Dyson Technology for' }).click();
   await expect(page).toHaveURL(/dyson/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Dys0n');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Dyson');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 });
