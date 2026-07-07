@@ -9,6 +9,7 @@ test('navigate to Dyson home page', async ({ page }) => {
   await page.getByRole('tab', { name: 'Manufacturers' }).click();
   await page.getByRole('link', { name: 'Dyson Dyson Technology for' }).click();
   await expect(page).toHaveURL('https://source.thenbs.com/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/overview');
+});
 
 test('check H1 heading', async ({ page }) => {
   await page.goto('https://source.thenbs.com/en/gb');
