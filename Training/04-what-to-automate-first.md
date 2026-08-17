@@ -3,7 +3,7 @@
 A quick guide to picking the right tests to automate first: the highest value to the business, and
 the boring repetitive jobs humans shouldn't be doing by hand.
 
-> **Golden rule:** automate what is **high value** *and* **run often**. Start there.
+> **Golden rule:** automate what is **high value** _and_ **run often**. Start there.
 
 ---
 
@@ -11,12 +11,12 @@ the boring repetitive jobs humans shouldn't be doing by hand.
 
 Score any test against these. More "yes" answers = higher priority.
 
-| Question | Why |
-| --- | --- |
-| **Does the business lose money if it breaks?** | Login, checkout, payments come first. |
-| **How often is it used?** | Something every customer hits daily beats a rare admin screen. |
-| **Is it boring and repetitive by hand?** | Perfect for a robot. |
-| **Is it stable?** | Stable pages are cheap to keep automated; daily-changing ones aren't yet. |
+| Question                                       | Why                                                                       |
+| ---------------------------------------------- | ------------------------------------------------------------------------- |
+| **Does the business lose money if it breaks?** | Login, checkout, payments come first.                                     |
+| **How often is it used?**                      | Something every customer hits daily beats a rare admin screen.            |
+| **Is it boring and repetitive by hand?**       | Perfect for a robot.                                                      |
+| **Is it stable?**                              | Stable pages are cheap to keep automated; daily-changing ones aren't yet. |
 
 ---
 

@@ -15,7 +15,7 @@ This is a **test automation project** built with **Playwright** (a tool for auto
 controlling a web browser) and written in **TypeScript** (JavaScript with type-checking added).
 
 A project like this is really just a folder full of files. Some files contain your actual tests,
-and others are **configuration** — they tell the tools *how* to behave. Let's go through them.
+and others are **configuration** — they tell the tools _how_ to behave. Let's go through them.
 
 ---
 
@@ -41,12 +41,12 @@ for the whole project. It contains:
 
 ### `package-lock.json` — the exact recipe 🔒
 
-You'll rarely edit this file by hand — and that's fine! While `package.json` says *roughly* which
+You'll rarely edit this file by hand — and that's fine! While `package.json` says _roughly_ which
 versions you need (e.g. "Playwright version 1.61 or newer"), `package-lock.json` records the
 **exact** versions that were actually installed, right down to the tiniest sub-dependency.
 
 > **Why it matters:** It guarantees that your machine, your teammate's machine, and the CI server
-> all install *identical* versions. This avoids the classic "but it works on my computer!" problem.
+> all install _identical_ versions. This avoids the classic "but it works on my computer!" problem.
 > **Rule of thumb:** let the tools update it, and commit it to Git.
 
 ---
@@ -79,7 +79,7 @@ how your tests run. In this project it controls things like:
 
 This file configures **TypeScript**, the language the tests are written in. It tells the TypeScript
 tooling how strict to be and which features to allow — for example, `"strict": true` turns on extra
-safety checks that catch mistakes *before* you even run the tests.
+safety checks that catch mistakes _before_ you even run the tests.
 
 > **Why it matters:** You usually set this up once and forget about it. It quietly helps you write
 > safer code by warning you about errors (like a typo in a variable name) as you type.
@@ -93,12 +93,13 @@ test specification"). For example, `tests/example.spec.ts` opens a web page and 
 title is correct.
 
 A single test typically follows a simple pattern:
+
 1. **Go** to a web page.
 2. **Do** something (click a link, type into a box).
 3. **Check** that the result is what you expected.
 
 > **Why it matters:** This is the part you'll spend most of your time in. Everything else in this
-> list exists to *support* the files in this folder.
+> list exists to _support_ the files in this folder.
 
 ---
 
@@ -121,7 +122,7 @@ This file sets up **CI (Continuous Integration)**. It lives inside the special `
 tells **GitHub Actions** to automatically run your tests every time code is pushed or a pull request
 is opened. It installs Node.js, installs the browsers, runs the tests, and then saves the report.
 
-> **Why it matters:** You don't have to *remember* to run the tests — GitHub runs them for you on
+> **Why it matters:** You don't have to _remember_ to run the tests — GitHub runs them for you on
 > every change. If someone breaks something, you find out straight away.
 
 ---
@@ -149,17 +150,17 @@ This is a large, auto-generated folder containing all the dependencies from `pac
 
 ## Quick reference cheat sheet
 
-| File / Folder                     | In one sentence                                             |
-| --------------------------------- | ----------------------------------------------------------- |
-| `package.json`                    | The heart of the project: details, dependencies, scripts.   |
-| `package-lock.json`               | Locks the exact versions so everyone installs the same set. |
-| `playwright.config.ts`            | The control panel for how Playwright runs your tests.       |
-| `tsconfig.json`                   | The rulebook for the TypeScript language.                   |
-| `tests/`                          | Where your actual test files live.                          |
-| `.gitignore`                      | Tells Git which files to ignore.                            |
-| `.github/workflows/playwright.yml`| Automatically runs your tests on GitHub (CI).               |
-| `README.md`                       | The welcome page explaining what the project is.            |
-| `node_modules/`                   | The auto-downloaded folder of dependencies.                 |
+| File / Folder                      | In one sentence                                             |
+| ---------------------------------- | ----------------------------------------------------------- |
+| `package.json`                     | The heart of the project: details, dependencies, scripts.   |
+| `package-lock.json`                | Locks the exact versions so everyone installs the same set. |
+| `playwright.config.ts`             | The control panel for how Playwright runs your tests.       |
+| `tsconfig.json`                    | The rulebook for the TypeScript language.                   |
+| `tests/`                           | Where your actual test files live.                          |
+| `.gitignore`                       | Tells Git which files to ignore.                            |
+| `.github/workflows/playwright.yml` | Automatically runs your tests on GitHub (CI).               |
+| `README.md`                        | The welcome page explaining what the project is.            |
+| `node_modules/`                    | The auto-downloaded folder of dependencies.                 |
 
 ---
 

@@ -1,7 +1,7 @@
 # Deep Dive Reference — Everything Explained
 
-This document goes one level deeper than the crib sheet. It explains not just *what* each element
-is, but *why* it exists, *how* it works under the hood, and *how* it is used in this project.
+This document goes one level deeper than the crib sheet. It explains not just _what_ each element
+is, but _why_ it exists, _how_ it works under the hood, and _how_ it is used in this project.
 
 ---
 
@@ -13,10 +13,10 @@ An `import` statement brings code from another file into the current file so you
 Without it, TypeScript has no idea what `Page`, `test`, or `expect` are.
 
 ```ts
-import { test, expect } from "../fixtures/test-options";
+import { test, expect } from '../fixtures/test-options';
 ```
 
-The `{ }` curly braces pick out *named exports* — specific things the other file has chosen to
+The `{ }` curly braces pick out _named exports_ — specific things the other file has chosen to
 share. The path `"../fixtures/test-options"` means "go up one folder, then into `fixtures/`,
 then the file called `test-options.ts`".
 
@@ -68,7 +68,7 @@ constructor(page: Page) {
 ```
 
 `this` refers to the specific instance of the class being created. So `this.page` means "the
-`page` property on *this* object".
+`page` property on _this_ object".
 
 ---
 
@@ -76,7 +76,7 @@ constructor(page: Page) {
 
 ### What is a `Locator`?
 
-A `Locator` is Playwright's way of describing *where an element is* on the page. Think of it as a
+A `Locator` is Playwright's way of describing _where an element is_ on the page. Think of it as a
 stored address. It doesn't actually touch the browser when you declare it — it only interacts with
 the page when you call an action on it (`click()`, `fill()`, etc.) or pass it to `expect()`.
 
@@ -86,11 +86,11 @@ Finds an element by its ARIA role — the accessibility label browsers give to e
 textboxes, links, headings, and tabs.
 
 ```ts
-page.getByRole("button", { name: "Close dialog" })  // finds <button>Close dialog</button>
-page.getByRole("textbox", { name: "Search" })        // finds an <input type="text"> labelled "Search"
-page.getByRole("tab", { name: "Manufacturers" })     // finds a tab element with that label
-page.getByRole("link", { name: "Dyson ..." })        // finds an <a> tag with that text
-page.getByRole("heading", { level: 1 })              // finds the <h1> heading
+page.getByRole('button', { name: 'Close dialog' }); // finds <button>Close dialog</button>
+page.getByRole('textbox', { name: 'Search' }); // finds an <input type="text"> labelled "Search"
+page.getByRole('tab', { name: 'Manufacturers' }); // finds a tab element with that label
+page.getByRole('link', { name: 'Dyson ...' }); // finds an <a> tag with that text
+page.getByRole('heading', { level: 1 }); // finds the <h1> heading
 ```
 
 This is the **recommended** way to find elements in Playwright because it mirrors how screen readers
@@ -101,8 +101,8 @@ navigate, making your tests more accessible and resilient to styling changes.
 Finds elements using a CSS selector. Used when `getByRole` isn't specific enough.
 
 ```ts
-page.locator("a.brand-primary.wrapper")              // CSS: an <a> tag with both those classes
-page.locator('a[action="manufacturer-header-link"]') // CSS: an <a> with a custom attribute
+page.locator('a.brand-primary.wrapper'); // CSS: an <a> tag with both those classes
+page.locator('a[action="manufacturer-header-link"]'); // CSS: an <a> with a custom attribute
 ```
 
 ---
@@ -111,7 +111,7 @@ page.locator('a[action="manufacturer-header-link"]') // CSS: an <a> with a custo
 
 ### What is an action method?
 
-An action method is an `async` function on a Page Object class that *does something* on the page —
+An action method is an `async` function on a Page Object class that _does something_ on the page —
 clicking, typing, navigating. By putting actions here instead of directly in tests, you write the
 steps once and reuse them everywhere.
 
@@ -134,7 +134,7 @@ still be loading when the test tried to click things that don't exist yet.
 ### `Promise<void>`
 
 `Promise<void>` is the return type of an `async` function that doesn't return a useful value — it
-just *does* something. The `Promise` part is automatic when you use `async`; `void` means "nothing
+just _does_ something. The `Promise` part is automatic when you use `async`; `void` means "nothing
 comes back". You'll see this on every action method in the POMs.
 
 ### `this.page.goto(url)`
@@ -160,7 +160,7 @@ visual regression flow to ensure images have finished downloading before taking 
 
 ### `this.page.evaluate(fn)`
 
-Runs a JavaScript function *inside the browser tab* (not in Node.js). Used in `triggerLazyLoad`
+Runs a JavaScript function _inside the browser tab_ (not in Node.js). Used in `triggerLazyLoad`
 to scroll the page using `window.scrollBy`, which only exists inside the browser.
 
 ### `this.page.waitForFunction(fn)`
@@ -180,11 +180,11 @@ the visible viewport.
 Assertions are the checks — the part of the test that says "this should be true". If an assertion
 fails, the test fails and Playwright reports exactly what was expected vs what actually happened.
 
-| Assertion | What it checks |
-|---|---|
-| `expect(page).toHaveURL("...")` | The browser's current URL matches exactly |
-| `expect(locator).toBeVisible()` | The element exists in the DOM and is visible on screen |
-| `expect(locator).toContainText("...")` | The element's text content includes the given string |
+| Assertion                                        | What it checks                                          |
+| ------------------------------------------------ | ------------------------------------------------------- |
+| `expect(page).toHaveURL("...")`                  | The browser's current URL matches exactly               |
+| `expect(locator).toBeVisible()`                  | The element exists in the DOM and is visible on screen  |
+| `expect(locator).toContainText("...")`           | The element's text content includes the given string    |
 | `expect(locator).toHaveAttribute("href", "...")` | The element has an HTML attribute with that exact value |
 
 All Playwright assertions automatically **retry** for up to 5 seconds (by default) before giving
@@ -196,7 +196,7 @@ up. This means minor timing delays don't cause false failures.
 
 ### What is a fixture?
 
-A fixture is something Playwright sets up for you *before* each test and tears down *after* it.
+A fixture is something Playwright sets up for you _before_ each test and tears down _after_ it.
 Playwright's built-in fixtures include `page` (a fresh browser tab) and `browser`. Our fixture file
 adds `nbsHomePage` and `dysonManufacturerPage` on top of those.
 
@@ -210,7 +210,7 @@ the new fixtures so VS Code can autocomplete them in tests.
 
 Each fixture is an async function that receives already-built fixtures (here, `page`) and a `use`
 callback. You build your object, pass it to `use(...)`, and Playwright hands it to the test.
-Anything you put *after* `use(...)` runs as teardown.
+Anything you put _after_ `use(...)` runs as teardown.
 
 ```ts
 nbsHomePage: async ({ page }, use) => {
@@ -236,7 +236,7 @@ appears in the HTML report, making it easy to see which group a test belongs to.
 
 ### `test.beforeEach(async ({ ... }) => { ... })`
 
-Runs before *every* test inside the `describe` block. In this project it navigates to the Dyson
+Runs before _every_ test inside the `describe` block. In this project it navigates to the Dyson
 manufacturer page. Because every test needs to start there, it makes sense to do it once here
 rather than repeat the navigation in every test.
 

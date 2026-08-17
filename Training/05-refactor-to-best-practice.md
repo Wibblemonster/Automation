@@ -1,6 +1,6 @@
 # Refactoring to Best Practice — Tidying Up the POM
 
-In doc `02` we migrated our tests to the Page Object Model. It *worked*, but a few things had
+In doc `02` we migrated our tests to the Page Object Model. It _worked_, but a few things had
 drifted from best practice. This guide walks through the clean-up we did, so you can replicate it
 step by step.
 
@@ -20,7 +20,7 @@ We did this in **4 small commits**. Do them in order and run the tests after eac
 ## Step 1 — Move test machinery out of the page object
 
 **Problem:** `DysonManufacturerPage` had grown to ~167 lines. Buried inside were screenshot-diffing
-and accessibility-scanning code. That's *test machinery*, not "the Dyson page" — it doesn't belong
+and accessibility-scanning code. That's _test machinery_, not "the Dyson page" — it doesn't belong
 in a page object.
 
 ### 1a. Create a `utils/` folder with two helpers
@@ -29,34 +29,40 @@ Create **`utils/visual-regression.ts`** and move the visual-regression code ther
 plain function that takes `page`, `testInfo`, and a `snapshotName` (so any page can reuse it):
 
 ```ts
-import { type Page, type TestInfo } from "@playwright/test";
-import fs from "fs";
-import path from "path";
-import pixelmatch from "pixelmatch";
-import { PNG } from "pngjs";
+import { type Page, type TestInfo } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
+import pixelmatch from 'pixelmatch';
+import { PNG } from 'pngjs';
 
 // (the same triggerLazyLoad / waitForImagesLoaded / pixelmatch logic we already had,
 //  just moved here as standalone functions instead of page-object methods)
 export async function applyVisualRegression(
   page: Page,
   testInfo: TestInfo,
-  snapshotName: string,
+  snapshotName: string
 ): Promise<void> {
   // ...screenshot, compare against baseline, save diff...
 }
 ```
 
 Create **`utils/accessibility.ts`** and move the axe scan there. Keep the comment explaining
-*why there's no assertion* (see Step 1c):
+_why there's no assertion_ (see Step 1c):
 
 ```ts
-import { type Page } from "@playwright/test";
-import AxeBuilder from "@axe-core/playwright";
-import { createHtmlReport } from "axe-html-reporter";
+import { type Page } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+import { createHtmlReport } from 'axe-html-reporter';
 
 export async function generateAccessibilityReport(page: Page): Promise<void> {
   const results = await new AxeBuilder({ page }).analyze();
-  createHtmlReport({ results, options: { outputDir: "accessibility-reports", reportFileName: "dyson-accessibility-report.html" } });
+  createHtmlReport({
+    results,
+    options: {
+      outputDir: 'accessibility-reports',
+      reportFileName: 'dyson-accessibility-report.html',
+    },
+  });
 }
 ```
 
@@ -68,12 +74,13 @@ export async function generateAccessibilityReport(page: Page): Promise<void> {
 `snapshotName` constant). Delete all the `fs` / `pixelmatch` / `axe` imports and methods:
 
 ```ts
-import { type Page, type Locator } from "@playwright/test";
+import { type Page, type Locator } from '@playwright/test';
 
 export class DysonManufacturerPage {
   readonly page: Page;
-  readonly url = "https://source.thenbs.com/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/overview";
-  readonly snapshotName = "dyson-visual";
+  readonly url =
+    'https://source.thenbs.com/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/overview';
+  readonly snapshotName = 'dyson-visual';
 
   // LOCATORS
   readonly heading: Locator;
@@ -82,8 +89,8 @@ export class DysonManufacturerPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.heading = page.getByRole("heading", { level: 1 });
-    this.sourceLogo = page.locator("a.brand-primary.wrapper");
+    this.heading = page.getByRole('heading', { level: 1 });
+    this.sourceLogo = page.locator('a.brand-primary.wrapper');
     this.manufacturerButton = page.locator('a[action="manufacturer-header-link"]');
   }
 }
@@ -96,8 +103,8 @@ In `tests/first-test.spec.ts`, import the helpers and call them. Remove the now-
 say so in a comment:
 
 ```ts
-import { applyVisualRegression } from "../utils/visual-regression";
-import { generateAccessibilityReport } from "../utils/accessibility";
+import { applyVisualRegression } from '../utils/visual-regression';
+import { generateAccessibilityReport } from '../utils/accessibility';
 
 // visual regression
 await applyVisualRegression(page, testInfo, dysonManufacturerPage.snapshotName);
@@ -126,7 +133,7 @@ Then the test's `beforeEach` reads like a story:
 ```ts
 await nbsHomePage.goto();
 await nbsHomePage.closePopup();
-await nbsHomePage.search("dyson");
+await nbsHomePage.search('dyson');
 await nbsHomePage.openManufacturersTab();
 await nbsHomePage.openDysonManufacturer();
 ```
@@ -209,4 +216,7 @@ npm run test:headless
 ```
 
 You should end with **4 clean commits** and a project where every folder has exactly one job. ✅
+
+```
+
 ```

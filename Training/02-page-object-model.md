@@ -3,7 +3,7 @@
 In the last document we learned what each file in the project does. Now we're going to improve
 **how our tests are written** by introducing the **Page Object Model** (POM).
 
-This guide walks you through it slowly, using the code we *already have* in
+This guide walks you through it slowly, using the code we _already have_ in
 `tests/first-test.spec.ts`. By the end you'll have:
 
 - A page object for the **NBS homepage** (searching and navigating).
@@ -16,7 +16,7 @@ This guide walks you through it slowly, using the code we *already have* in
 
 ## 1. What problem does POM solve?
 
-Look at our current test. The locators are written *inside* the test:
+Look at our current test. The locators are written _inside_ the test:
 
 ```ts
 test.beforeEach(async ({ page }) => {
@@ -46,7 +46,8 @@ changes the search box, we'd have to fix the locator in **20 places**. 😱
 > of poking at the page directly.
 
 **Benefits:**
-- **One place to change.** If a locator changes, you fix it in *one* file.
+
+- **One place to change.** If a locator changes, you fix it in _one_ file.
 - **Readable tests.** Tests read like plain English: `await nbsHomePage.searchForManufacturer('dyson')`.
 - **No repetition.** Write the "search" steps once, reuse them everywhere.
 
@@ -110,7 +111,7 @@ Notice the two clearly commented sections — **LOCATORS** and **ACTIONS**. This
 separation you wanted, and it's a great habit.
 
 - **Locators** are declared as class properties and assigned once in the `constructor`.
-- **Actions** are `async` methods that *use* those locators to do something.
+- **Actions** are `async` methods that _use_ those locators to do something.
 - `readonly` just means "this is set once and shouldn't be reassigned" — a small safety net.
 
 ---
@@ -179,14 +180,14 @@ See what happened? Every locator from our old `beforeEach` now lives in the **LO
 and every step became a small, well-named **ACTION** method.
 
 > **Best-practice note — keep assertions OUT of most action methods.** A page object's job is
-> mostly to *do* things and *expose* elements. Let the **test** decide what to assert. (There are
+> mostly to _do_ things and _expose_ elements. Let the **test** decide what to assert. (There are
 > exceptions, but as a beginner, start with this rule — it keeps page objects reusable.)
 
 ---
 
 ## 5. Build the second page object — `DysonManufacturerPage`
 
-This one owns the elements we *check* on the Dyson page. Create
+This one owns the elements we _check_ on the Dyson page. Create
 `pages/DysonManufacturerPage.ts`:
 
 ```ts
@@ -222,8 +223,8 @@ export class DysonManufacturerPage {
 }
 ```
 
-> **Why expose locators instead of hiding every check?** Because our tests here are *verifying
-> attributes* (href, text, visibility). The cleanest approach is to let the page object say
+> **Why expose locators instead of hiding every check?** Because our tests here are _verifying
+> attributes_ (href, text, visibility). The cleanest approach is to let the page object say
 > "here is the heading / logo / button" and let the test say "and it should look like this".
 
 ---
@@ -234,19 +235,19 @@ Here's the problem fixtures solve. Without them, every test has to build its own
 
 ```ts
 test('example', async ({ page }) => {
-  const nbsHomePage = new NbsHomePage(page);            // repeated in every test 😴
-  const dysonPage = new DysonManufacturerPage(page);    // repeated in every test 😴
+  const nbsHomePage = new NbsHomePage(page); // repeated in every test 😴
+  const dysonPage = new DysonManufacturerPage(page); // repeated in every test 😴
   // ...
 });
 ```
 
-That `new ...(page)` boilerplate gets repeated in *every single test*. **Fixtures let Playwright
+That `new ...(page)` boilerplate gets repeated in _every single test_. **Fixtures let Playwright
 create those objects for us and inject them straight into the test**, exactly like the built-in
 `page` fixture is injected.
 
 ### 6a. What is a fixture, really?
 
-A **fixture** is just a named thing Playwright prepares *before* your test and hands to it. You've
+A **fixture** is just a named thing Playwright prepares _before_ your test and hands to it. You've
 already been using one: `{ page }`. That `page` is a built-in fixture — Playwright creates a fresh
 browser tab and passes it in.
 
@@ -300,13 +301,13 @@ nbsHomePage: async ({ page }, use) => {
   Playwright pauses here, runs your test with that object available, and resumes afterwards
   (which is where you'd put any cleanup, if you needed it).
 
-> **Mental model:** `use(x)` means *"here you go, test — here is `x` to work with."* Anything before
+> **Mental model:** `use(x)` means _"here you go, test — here is `x` to work with."_ Anything before
 > `use` is **setup**; anything after `use` is **teardown**.
 
 ### 6c. Why this is the "intended" / best-practice way
 
 - **No boilerplate.** Tests never call `new NbsHomePage(page)` again.
-- **Lazy creation.** A fixture is only built if a test actually *asks* for it. A test that only
+- **Lazy creation.** A fixture is only built if a test actually _asks_ for it. A test that only
   needs `dysonManufacturerPage` won't waste time creating `nbsHomePage`.
 - **Consistent lifecycle.** Playwright manages setup/teardown for you, per test, automatically.
 - **One import.** Tests import `test` and `expect` from our fixture file, and get everything.
@@ -332,28 +333,34 @@ test.describe('Dyson manufacturer page', () => {
     await expect(page).toHaveURL(dysonManufacturerPage.expectedUrl);
   });
 
-  test('assert that the heading is correct on the dyson homepage', async ({ dysonManufacturerPage }) => {
+  test('assert that the heading is correct on the dyson homepage', async ({
+    dysonManufacturerPage,
+  }) => {
     await expect(dysonManufacturerPage.heading).toBeVisible();
     await expect(dysonManufacturerPage.heading).toContainText('Dyson');
   });
 
-  test('Ensure the HREF attribute on the source logo is as expected', async ({ dysonManufacturerPage }) => {
+  test('Ensure the HREF attribute on the source logo is as expected', async ({
+    dysonManufacturerPage,
+  }) => {
     await expect(dysonManufacturerPage.sourceLogo).toHaveAttribute('href', '/en/gb');
   });
 
-  test("assert the I'm a manufacturer button is visible, has correct text and correct href", async ({ dysonManufacturerPage }) => {
+  test("assert the I'm a manufacturer button is visible, has correct text and correct href", async ({
+    dysonManufacturerPage,
+  }) => {
     await expect(dysonManufacturerPage.manufacturerButton).toBeVisible();
     await expect(dysonManufacturerPage.manufacturerButton).toContainText("I'm a manufacturer");
     await expect(dysonManufacturerPage.manufacturerButton).toHaveAttribute(
       'href',
-      'https://manufacturers.thenbs.com/nbs-source',
+      'https://manufacturers.thenbs.com/nbs-source'
     );
   });
 });
 ```
 
-Compare this to the original. The test now reads like a story: *go, close popup, search, open tab,
-open Dyson*. And there is **not a single locator string** in the test file — they all live safely in
+Compare this to the original. The test now reads like a story: _go, close popup, search, open tab,
+open Dyson_. And there is **not a single locator string** in the test file — they all live safely in
 the page objects. 🎉
 
 ---
@@ -393,6 +400,7 @@ Follow this order and you can't go wrong:
 ## 10. Where to go next
 
 Once you're comfortable, good follow-up topics are:
+
 - Adding a **`BasePage`** that shared actions (like `closePopup`) can live on.
 - Returning page objects from actions to enable **chaining** (e.g. navigation methods that return
   the next page).

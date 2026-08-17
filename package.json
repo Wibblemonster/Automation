@@ -10,14 +10,24 @@
     "specs-ui": "npx playwright test --ui",
     "specs-headed": "npx playwright test --headed",
     "specs": "npx playwright test",
-    "codegen": "npx playwright codegen https://source.thenbs.com/"
+    "codegen": "npx playwright codegen https://source.thenbs.com/",
+    "prepare": "husky install",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.0",
-    "prettier": "^3.9.4"
+    "husky": "^9.1.7",
+    "lint-staged": "^17.3.0",
+    "prettier": "^3.9.6"
   },
   "dependencies": {
     "dotenv": "^17.4.2"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx,json,md}": [
+      "prettier --write"
+    ]
   }
 }
