@@ -110,4 +110,13 @@ export class DysonManufacturerPage extends BasePage {
     await expect(this.phoneLink).toHaveAttribute('title', 'Call 08003457788');
     await expect(this.phoneLink).toHaveAttribute('href', 'tel:08003457788');
   }
+  // ------------------------------------------------------------
+  // Check manufcturer link is correct and opens in a new tab
+  // ------------------------------------------------------------
+  async assertManufacturerLink() {
+    await expect(this.manufacturerButton).toBeVisible();
+    await expect(this.manufacturerButton).toHaveAttribute('href', this.urlManufacturer);
+    await expect(this.manufacturerButton).toHaveAttribute('target', '_blank');
+  }
+  // ------------------------------------------------------------
 }
