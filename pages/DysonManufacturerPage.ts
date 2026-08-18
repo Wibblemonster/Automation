@@ -22,10 +22,7 @@ export class DysonManufacturerPage extends BasePage {
     this.manufacturerButton = page.getByRole('link', { name: "I'm a manufacturer" });
     this.navBar = page.locator('app-secondary-navbar');
     this.link = this.manufacturerButton;
-    this.scrollToTopButton = page.locator(
-      'button:has(mat-icon[data-mat-icon-name="arrow-up-to-line"])'
-    );
-
+    this.scrollToTopButton = page.locator('[data-cy="backToTopButton"]');
     this.linkedInButton = page.getByRole('link', { name: 'Visit LinkedIn' });
   }
   //Actions
