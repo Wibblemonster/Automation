@@ -5,12 +5,15 @@ export class DysonManufacturerPage extends BasePage {
   readonly url =
     'https://source.thenbs.com/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/overview';
   readonly urlManufacturer = 'https://manufacturers.thenbs.com/nbs-source';
+  readonly urlLinkedIn = 'https://www.linkedin.com/company/nbs-source/';
   //Locators
   readonly phoneLink: Locator;
   readonly h1Heading: Locator;
   readonly manufacturerButton: Locator;
+  readonly linkedInButton: Locator;
   readonly navBar: Locator;
   readonly link: Locator;
+  readonly scrollToTopButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -19,6 +22,10 @@ export class DysonManufacturerPage extends BasePage {
     this.manufacturerButton = page.getByRole('link', { name: "I'm a manufacturer" });
     this.navBar = page.locator('app-secondary-navbar');
     this.link = this.manufacturerButton;
+    this.scrollToTopButton = page.locator(
+      'button:has(mat-icon[data-mat-icon-name="arrow-up-to-line"])'
+    );
+    this.linkedInButton = page.getByRole('link', { name: 'Visit LinkedIn' });
   }
   //Actions
   // ------------------------------------------------------------
@@ -111,12 +118,31 @@ export class DysonManufacturerPage extends BasePage {
     await expect(this.phoneLink).toHaveAttribute('href', 'tel:08003457788');
   }
   // ------------------------------------------------------------
-  // Check manufcturer link is correct and opens in a new tab
+  // Check Linkedin link is correct and opens in a new tab
   // ------------------------------------------------------------
-  async assertManufacturerLink() {
-    await expect(this.manufacturerButton).toBeVisible();
-    await expect(this.manufacturerButton).toHaveAttribute('href', this.urlManufacturer);
-    await expect(this.manufacturerButton).toHaveAttribute('target', '_blank');
+  async assertLinkedInLink() {
+    await expect(this.linkedInButton).toBeVisible();
+    await expect(this.linkedInButton).toHaveAttribute('href', this.urlLinkedIn);
+    await expect(this.linkedInButton).toHaveAttribute('target', '_blank');
+  }
+  // ------------------------------------------------------------
+  // Scroll to top button checks
+  // ------------------------------------------------------------
+  async assertScrollToTopButton() {
+    // Verify button is not visible when at the top of the page
+    await expect(this.scrollToTopButton).not.toBeVisible();
+
+    // Scroll the page down
+    await this.page.evaluate(() => window.scrollBy(0, 500));
+
+    // Verify button becomes visible after scrolling
+    await expect(this.scrollToTopButton).toBeVisible();
+
+    // Click the button to scroll back to top
+    await this.scrollToTopButton.click();
+
+    // Verify page scrolled back to top
+    await expect(this.scrollToTopButton).not.toBeVisible();
   }
   // ------------------------------------------------------------
 }

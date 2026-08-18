@@ -30,9 +30,18 @@ test('check Manufacturer tabs', async ({ dysonManufacturerPage }) => {
 test('checks Dyson phone link details', async ({ dysonManufacturerPage }) => {
   await dysonManufacturerPage.assertPhoneLinkDetails();
 });
+
 // ------------------------------------------------------------
-// Check manufcturer link is correct and opens in a new tab
+// Check LinkedIn link is correct and opens in a new tab
 // ------------------------------------------------------------
-test('check Manufacturer link', async ({ dysonManufacturerPage }) => {
-  await dysonManufacturerPage.assertManufacturerLink();
+test('check LinkedIn link', async ({ dysonManufacturerPage }) => {
+  await dysonManufacturerPage.assertLinkedInLink();
+});
+
+// ------------------------------------------------------------
+// Scroll to top button checks
+// ------------------------------------------------------------
+
+test('check Scroll to top button', async ({ dysonManufacturerPage }) => {
+  await dysonManufacturerPage.assertScrollToTopButton();
 });
