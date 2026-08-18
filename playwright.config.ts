@@ -1,5 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
+declare const process: {
+  env: {
+    CI?: string;
+  };
+};
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -13,8 +19,9 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
+  testMatch: ['**/*.spec.ts', '**/*.test.ts', '**/*.test.spec.ts'],
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
