@@ -16,13 +16,21 @@ export class DysonManufacturerPage extends BasePage {
     super(page);
     this.phoneLink = page.locator('a[title="Call 08003457788"]');
     this.h1Heading = page.getByRole('heading', { level: 1 });
-    this.manufacturerButton = page
-      .locator('a[href*="manufacturers.thenbs.com"], a[href*="nbs-source"]')
-      .first();
+    this.manufacturerButton = page.getByRole('link', { name: "I'm a manufacturer" });
+    // this.manufacturerButton = page
+    //   .locator('a[href*="manufacturers.thenbs.com"], a[href*="nbs-source"]')
+    //   .first();
     this.navBar = page.locator('app-secondary-navbar');
     this.link = this.manufacturerButton;
   }
   //Actions
+  // ------------------------------------------------------------
+  // Navigation
+  // ------------------------------------------------------------
+  async open() {
+    await this.page.goto(this.url);
+    await this.assertPageUrl();
+  }
   // ------------------------------------------------------------
   // Page URL checks
   // ------------------------------------------------------------
@@ -37,7 +45,7 @@ export class DysonManufacturerPage extends BasePage {
     await expect(this.page).toHaveURL(this.url);
     await expect(this.manufacturerButton).toBeVisible();
     await expect(this.navBar).toContainText("I'm a manufacturer");
-    await expect(this.link).toHaveAttribute('href', this.urlManufacturer);
+    await expect(this.manufacturerButton).toHaveAttribute('href', this.urlManufacturer);
   }
 
   // ------------------------------------------------------------
@@ -77,7 +85,7 @@ export class DysonManufacturerPage extends BasePage {
       },
     ];
 
-    const tabLinks = this.page.locator('div.mat-mdc-tab-list a[mat-tab-link]');
+    const tabLinks = this.page.getByRole('tablist').getByRole('tab');
 
     await expect(tabLinks).toHaveCount(expectedTabs.length);
 

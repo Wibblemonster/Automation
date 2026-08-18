@@ -15,7 +15,9 @@ export const test = base.extend<Pages>({
     await use(new NBSHomePage(page));
   },
   dysonManufacturerPage: async ({ page }, use) => {
-    await use(new DysonManufacturerPage(page));
+    const dysonManufacturerPage = new DysonManufacturerPage(page);
+    await dysonManufacturerPage.open();
+    await use(dysonManufacturerPage);
   },
   basePage: async ({ page }, use) => {
     await use(new BasePage(page));

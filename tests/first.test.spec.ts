@@ -1,17 +1,10 @@
 ﻿import { test, expect } from '../fixtures/test-options';
-import { openDysonManufacturerPage } from './helpers/dysonPage';
-import { DysonManufacturerPage } from '../pages/DysonManufacturerPage';
-
-test.beforeEach(async ({ page }) => {
-  await openDysonManufacturerPage(page);
-});
 
 // ------------------------------------------------------------
 // Basic navigation and page checks
 // ------------------------------------------------------------
 
-test('check H1 heading', async ({ page }) => {
-  const dysonManufacturerPage = new DysonManufacturerPage(page);
+test('check H1 heading', async ({ dysonManufacturerPage }) => {
   await expect(dysonManufacturerPage.h1Heading).toBeVisible();
   await expect(dysonManufacturerPage.h1Heading).toHaveText('Dyson');
 });
@@ -20,23 +13,20 @@ test('check H1 heading', async ({ page }) => {
 // UI element checks
 // ------------------------------------------------------------
 
-test('check Manufacturer button', async ({ page }) => {
-  const dysonManufacturerPage = new DysonManufacturerPage(page);
+test('check Manufacturer button', async ({ dysonManufacturerPage }) => {
   await dysonManufacturerPage.assertManufacturerButton();
 });
 
 // ------------------------------------------------------------
 // Tab and navigation checks
 // ------------------------------------------------------------
-test('check Manufacturer tabs', async ({ page }) => {
-  const dysonManufacturerPage = new DysonManufacturerPage(page);
+test('check Manufacturer tabs', async ({ dysonManufacturerPage }) => {
   await dysonManufacturerPage.assertManufacturerTabs();
 });
 
 // ------------------------------------------------------------
 // Phone link checks
 // ------------------------------------------------------------
-test('checks Dyson phone link details', async ({ page }) => {
-  const dysonManufacturerPage = new DysonManufacturerPage(page);
+test('checks Dyson phone link details', async ({ dysonManufacturerPage }) => {
   await dysonManufacturerPage.assertPhoneLinkDetails();
 });
