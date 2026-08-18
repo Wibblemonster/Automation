@@ -5,7 +5,7 @@ export class DysonManufacturerPage extends BasePage {
   readonly url =
     'https://source.thenbs.com/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/overview';
   readonly urlManufacturer = 'https://manufacturers.thenbs.com/nbs-source';
-  readonly urlLinkedIn = 'https://www.linkedin.com/company/nbs-source/';
+  readonly urlLinkedIn = 'https://www.linkedin.com/company/dyson/';
   //Locators
   readonly phoneLink: Locator;
   readonly h1Heading: Locator;
@@ -25,6 +25,7 @@ export class DysonManufacturerPage extends BasePage {
     this.scrollToTopButton = page.locator(
       'button:has(mat-icon[data-mat-icon-name="arrow-up-to-line"])'
     );
+
     this.linkedInButton = page.getByRole('link', { name: 'Visit LinkedIn' });
   }
   //Actions
@@ -124,6 +125,7 @@ export class DysonManufacturerPage extends BasePage {
     await expect(this.linkedInButton).toBeVisible();
     await expect(this.linkedInButton).toHaveAttribute('href', this.urlLinkedIn);
     await expect(this.linkedInButton).toHaveAttribute('target', '_blank');
+    await expect(this.linkedInButton).toHaveAttribute('title', 'Visit LinkedIn');
   }
   // ------------------------------------------------------------
   // Scroll to top button checks
@@ -142,7 +144,13 @@ export class DysonManufacturerPage extends BasePage {
     await this.scrollToTopButton.click();
 
     // Verify page scrolled back to top
+    await expect
+      .poll(async () => await this.page.evaluate(() => window.scrollY), { timeout: 5000 })
+      .toEqual(0);
+
+    // Verify button is hidden again
     await expect(this.scrollToTopButton).not.toBeVisible();
   }
+
   // ------------------------------------------------------------
 }
