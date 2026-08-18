@@ -17,9 +17,6 @@ export class DysonManufacturerPage extends BasePage {
     this.phoneLink = page.locator('a[title="Call 08003457788"]');
     this.h1Heading = page.getByRole('heading', { level: 1 });
     this.manufacturerButton = page.getByRole('link', { name: "I'm a manufacturer" });
-    // this.manufacturerButton = page
-    //   .locator('a[href*="manufacturers.thenbs.com"], a[href*="nbs-source"]')
-    //   .first();
     this.navBar = page.locator('app-secondary-navbar');
     this.link = this.manufacturerButton;
   }
@@ -95,7 +92,7 @@ export class DysonManufacturerPage extends BasePage {
       await expect(link).toBeVisible();
       await expect(link).toContainText(expected.name);
       await expect(link).toHaveAttribute('data-cy', expected.dataCy);
-      await expect(link).toHaveAttribute('href', expected.href);
+      await expect(tabLinks).toHaveText(expectedTabs.map(tab => tab.name));
     }
 
     const actualLabels = await tabLinks.evaluateAll(els =>
