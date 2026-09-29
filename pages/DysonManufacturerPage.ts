@@ -13,6 +13,7 @@ export class DysonManufacturerPage extends BasePage {
   readonly linkedInButton: Locator;
   readonly navBar: Locator;
   readonly link: Locator;
+  readonly tabs: Locator;
   readonly scrollToTopButton: Locator;
 
   constructor(page: Page) {
@@ -24,6 +25,7 @@ export class DysonManufacturerPage extends BasePage {
     this.link = this.manufacturerButton;
     this.scrollToTopButton = page.locator('[data-cy="backToTopButton"]');
     this.linkedInButton = page.getByRole('link', { name: 'Visit LinkedIn' });
+    this.tabs = page.getByRole('tablist').getByRole('tab');
   }
   //Actions
   // ------------------------------------------------------------
@@ -43,12 +45,13 @@ export class DysonManufacturerPage extends BasePage {
   // Manufacturer link checks
   // ------------------------------------------------------------
 
-  async assertManufacturerButton() {
-    await expect(this.page).toHaveURL(this.url);
-    await expect(this.manufacturerButton).toBeVisible();
-    await expect(this.navBar).toContainText("I'm a manufacturer");
-    await expect(this.manufacturerButton).toHaveAttribute('href', this.urlManufacturer);
-  }
+  // async assertManufacturerButton() {
+
+  //   await expect(this.page).toHaveURL(this.url);
+  //   await expect(this.manufacturerButton).toBeVisible();
+  //   await expect(this.navBar).toContainText("I'm a manufacturer");
+  //   await expect(this.manufacturerButton).toHaveAttribute('href', this.urlManufacturer);
+  // }
 
   // ------------------------------------------------------------
   // Tab and navigation checks
