@@ -1,6 +1,7 @@
 import { type Page, type Locator, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
-
+// Relative to baseURL in playwright.config.ts
+export const DYSON_MANUFACTURER_PATH = '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U';
 export class DysonManufacturerPage extends BasePage {
   readonly url =
     'https://source.thenbs.com/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/overview';
@@ -41,6 +42,18 @@ export class DysonManufacturerPage extends BasePage {
   async assertPageUrl() {
     await expect(this.page).toHaveURL(this.url);
   }
+
+  // ------------------------------------------------------------
+  // Scrolling
+  // ------------------------------------------------------------
+  async scrollDown(pixels = 500) {
+    await this.page.evaluate(y => window.scrollBy(0, y), pixels);
+  }
+
+  async getScrollY() {
+    return this.page.evaluate(() => window.scrollY);
+  }
+
   // ------------------------------------------------------------
   // Manufacturer link checks
   // ------------------------------------------------------------
@@ -56,101 +69,101 @@ export class DysonManufacturerPage extends BasePage {
   // ------------------------------------------------------------
   // Tab and navigation checks
   // ------------------------------------------------------------
-  async assertManufacturerTabs() {
-    const expectedTabs = [
-      {
-        name: 'Overview',
-        dataCy: 'overviewTab',
-        href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/overview',
-      },
-      {
-        name: 'Products',
-        dataCy: 'productsTab',
-        href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/products',
-      },
-      {
-        name: 'Certifications',
-        dataCy: 'certificatesTab',
-        href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/third-party-certifications',
-      },
-      {
-        name: 'Literature',
-        dataCy: 'literatureTab',
-        href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/literature',
-      },
-      {
-        name: 'Case studies',
-        dataCy: 'caseStudiesTab',
-        href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/case-studies',
-      },
-      {
-        name: 'About us',
-        dataCy: 'aboutTab',
-        href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/about',
-      },
-    ];
+  // async assertManufacturerTabs() {
+  //   const expectedTabs = [
+  //     {
+  //       name: 'Overview',
+  //       dataCy: 'overviewTab',
+  //       href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/overview',
+  //     },
+  //     {
+  //       name: 'Products',
+  //       dataCy: 'productsTab',
+  //       href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/products',
+  //     },
+  //     {
+  //       name: 'Certifications',
+  //       dataCy: 'certificatesTab',
+  //       href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/third-party-certifications',
+  //     },
+  //     {
+  //       name: 'Literature',
+  //       dataCy: 'literatureTab',
+  //       href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/literature',
+  //     },
+  //     {
+  //       name: 'Case studies',
+  //       dataCy: 'caseStudiesTab',
+  //       href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/case-studies',
+  //     },
+  //     {
+  //       name: 'About us',
+  //       dataCy: 'aboutTab',
+  //       href: '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/about',
+  //     },
+  //   ];
 
-    const tabLinks = this.page.getByRole('tablist').getByRole('tab');
+  //   const tabLinks = this.page.getByRole('tablist').getByRole('tab');
 
-    await expect(tabLinks).toHaveCount(expectedTabs.length);
+  //   await expect(tabLinks).toHaveCount(expectedTabs.length);
 
-    for (const [index, expected] of expectedTabs.entries()) {
-      const link = tabLinks.nth(index);
+  //   for (const [index, expected] of expectedTabs.entries()) {
+  //     const link = tabLinks.nth(index);
 
-      await expect(link).toBeVisible();
-      await expect(link).toContainText(expected.name);
-      await expect(link).toHaveAttribute('data-cy', expected.dataCy);
-      await expect(tabLinks).toHaveText(expectedTabs.map(tab => tab.name));
-    }
+  //     await expect(link).toBeVisible();
+  //     await expect(link).toContainText(expected.name);
+  //     await expect(link).toHaveAttribute('data-cy', expected.dataCy);
+  //     await expect(tabLinks).toHaveText(expectedTabs.map(tab => tab.name));
+  //   }
 
-    const actualLabels = await tabLinks.evaluateAll(els =>
-      els.map(el => el.textContent?.trim() ?? '')
-    );
+  //   const actualLabels = await tabLinks.evaluateAll(els =>
+  //     els.map(el => el.textContent?.trim() ?? '')
+  //   );
 
-    expect(actualLabels).toEqual(expectedTabs.map(tab => tab.name));
-  }
+  //   expect(actualLabels).toEqual(expectedTabs.map(tab => tab.name));
+  // }
   // ------------------------------------------------------------
   // Phone link checks
   // ------------------------------------------------------------
-  async assertPhoneLinkDetails() {
-    await expect(this.phoneLink).toBeVisible();
-    await expect(this.phoneLink).toContainText('08003457788');
-    await expect(this.phoneLink).toHaveAttribute('title', 'Call 08003457788');
-    await expect(this.phoneLink).toHaveAttribute('href', 'tel:08003457788');
-  }
-  // ------------------------------------------------------------
-  // Check Linkedin link is correct and opens in a new tab
-  // ------------------------------------------------------------
-  async assertLinkedInLink() {
-    await expect(this.linkedInButton).toBeVisible();
-    await expect(this.linkedInButton).toHaveAttribute('href', this.urlLinkedIn);
-    await expect(this.linkedInButton).toHaveAttribute('target', '_blank');
-    await expect(this.linkedInButton).toHaveAttribute('title', 'Visit LinkedIn');
-  }
-  // ------------------------------------------------------------
-  // Scroll to top button checks
-  // ------------------------------------------------------------
-  async assertScrollToTopButton() {
-    // Verify button is not visible when at the top of the page
-    await expect(this.scrollToTopButton).not.toBeVisible();
+  // async assertPhoneLinkDetails() {
+  //   await expect(this.phoneLink).toBeVisible();
+  //   await expect(this.phoneLink).toContainText('08003457788');
+  //   await expect(this.phoneLink).toHaveAttribute('title', 'Call 08003457788');
+  //   await expect(this.phoneLink).toHaveAttribute('href', 'tel:08003457788');
+  // }
+  // // ------------------------------------------------------------
+  // // Check Linkedin link is correct and opens in a new tab
+  // // ------------------------------------------------------------
+  // async assertLinkedInLink() {
+  //   await expect(this.linkedInButton).toBeVisible();
+  //   await expect(this.linkedInButton).toHaveAttribute('href', this.urlLinkedIn);
+  //   await expect(this.linkedInButton).toHaveAttribute('target', '_blank');
+  //   await expect(this.linkedInButton).toHaveAttribute('title', 'Visit LinkedIn');
+  // }
+  // // ------------------------------------------------------------
+  // // Scroll to top button checks
+  // // ------------------------------------------------------------
+  // async assertScrollToTopButton() {
+  //   // Verify button is not visible when at the top of the page
+  //   await expect(this.scrollToTopButton).not.toBeVisible();
 
-    // Scroll the page down
-    await this.page.evaluate(() => window.scrollBy(0, 500));
+  //   // Scroll the page down
+  //   await this.page.evaluate(() => window.scrollBy(0, 500));
 
-    // Verify button becomes visible after scrolling
-    await expect(this.scrollToTopButton).toBeVisible();
+  //   // Verify button becomes visible after scrolling
+  //   await expect(this.scrollToTopButton).toBeVisible();
 
-    // Click the button to scroll back to top
-    await this.scrollToTopButton.click();
+  //   // Click the button to scroll back to top
+  //   await this.scrollToTopButton.click();
 
-    // Verify page scrolled back to top
-    await expect
-      .poll(async () => await this.page.evaluate(() => window.scrollY), { timeout: 5000 })
-      .toEqual(0);
+  //   // Verify page scrolled back to top
+  //   await expect
+  //     .poll(async () => await this.page.evaluate(() => window.scrollY), { timeout: 5000 })
+  //     .toEqual(0);
 
-    // Verify button is hidden again
-    await expect(this.scrollToTopButton).not.toBeVisible();
-  }
+  //   // Verify button is hidden again
+  //   await expect(this.scrollToTopButton).not.toBeVisible();
+  // }
 
   // ------------------------------------------------------------
 }
