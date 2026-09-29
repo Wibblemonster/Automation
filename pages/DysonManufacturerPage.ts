@@ -1,9 +1,11 @@
 import { type Page, type Locator, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
+// Relative to baseURL in playwright.config.ts
+export const DYSON_MANUFACTURER_PATH = '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U';
+
 export class DysonManufacturerPage extends BasePage {
-  readonly url =
-    'https://source.thenbs.com/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U/overview';
+  readonly url = `${DYSON_MANUFACTURER_PATH}/overview`;
   readonly urlManufacturer = 'https://manufacturers.thenbs.com/nbs-source';
   readonly urlLinkedIn = 'https://www.linkedin.com/company/dyson/';
   //Locators
@@ -17,7 +19,7 @@ export class DysonManufacturerPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.phoneLink = page.locator('a[title="Call 08003457788"]');
+    this.phoneLink = page.getByRole('link', { name: '08003457788' });
     this.h1Heading = page.getByRole('heading', { level: 1 });
     this.manufacturerButton = page.getByRole('link', { name: "I'm a manufacturer" });
     this.navBar = page.locator('app-secondary-navbar');

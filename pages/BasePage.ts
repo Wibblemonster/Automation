@@ -1,13 +1,11 @@
-import 'dotenv/config';
-import { type Page, type Locator, expect } from '@playwright/test';
+import { type Page } from '@playwright/test';
 
-//Locator for the Dyson phone link on the current page.
+// Shared base for all page objects. Put elements common to every page
+// (header, footer, cookie banner, etc.) here.
 export class BasePage {
   readonly page: Page;
 
   constructor(page: Page) {
     this.page = page;
   }
-
-  //actions
 }

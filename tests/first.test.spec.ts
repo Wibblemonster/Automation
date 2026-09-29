@@ -1,6 +1,5 @@
 import { test, expect } from '../fixtures/test-options';
-
-const tabBasePath = '/en/gb/manufacturer/dyson/nakAxHWxDZprdqkBaCdn4U';
+import { DYSON_MANUFACTURER_PATH as tabBasePath } from '../pages/DysonManufacturerPage';
 
 const expectedTabs = [
   { name: 'Overview', dataCy: 'overviewTab', href: `${tabBasePath}/overview` },
