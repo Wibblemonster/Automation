@@ -45,3 +45,11 @@ test('check LinkedIn link', async ({ dysonManufacturerPage }) => {
 test('check Scroll to top button', async ({ dysonManufacturerPage }) => {
   await dysonManufacturerPage.assertScrollToTopButton();
 });
+
+// ------------------------------------------------------------
+// User login checks
+// ------------------------------------------------------------
+
+test('User Login', async ({ signInPage }) => {
+  await signInPage.login();
+});
