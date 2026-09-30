@@ -1,6 +1,5 @@
 ﻿import { test, expect } from '../fixtures/test-options';
 import { DYSON_MANUFACTURER_PATH as tabBasePath } from '../pages/DysonManufacturerPage';
-import { SignInPage } from '../pages/SignInPage';
 
 const expectedTabs = [
   { name: 'Overview', dataCy: 'overviewTab', href: `${tabBasePath}/overview` },
@@ -21,6 +20,16 @@ const expectedTabs = [
 test('check H1 heading', async ({ dysonManufacturerPage }) => {
   await expect(dysonManufacturerPage.h1Heading).toBeVisible();
   await expect(dysonManufacturerPage.h1Heading).toHaveText('Dyson');
+});
+
+test('Visual regression: Dyson manufacturer homepage', async ({ dysonManufacturerPage }) => {
+  await expect(dysonManufacturerPage.h1Heading).toBeVisible();
+  await expect(dysonManufacturerPage.page).toHaveScreenshot('dyson-manufacturer-homepage.png', {
+    fullPage: true,
+    animations: 'disabled',
+    caret: 'hide',
+    maxDiffPixelRatio: 0.01,
+  });
 });
 
 // ------------------------------------------------------------

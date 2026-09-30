@@ -13,6 +13,7 @@
     "/^code --list-extensions$/": {
       "approve": true,
       "matchCommandLine": true
-    }
+    },
+    "npx prettier": true
   }
 }
