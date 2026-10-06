@@ -6,6 +6,10 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+/screenshots/results/
+/screenshots/baselines/*
+!/screenshots/baselines/linux/
+!/screenshots/baselines/linux/**
 
 # Environment variables
 .env

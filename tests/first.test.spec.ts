@@ -24,6 +24,7 @@ test('check H1 heading', async ({ dysonManufacturerPage }) => {
 
 test('Visual regression: Dyson manufacturer homepage', async ({ dysonManufacturerPage }) => {
   await expect(dysonManufacturerPage.h1Heading).toBeVisible();
+  await dysonManufacturerPage.loadAllImages();
   await expect(dysonManufacturerPage.page).toHaveScreenshot('dyson-manufacturer-homepage.png', {
     fullPage: true,
     animations: 'disabled',
