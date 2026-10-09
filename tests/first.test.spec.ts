@@ -22,14 +22,14 @@ test('check H1 heading', async ({ dysonManufacturerPage }) => {
   await expect(dysonManufacturerPage.h1Heading).toHaveText('Dyson');
 });
 
-test('Visual regression: Dyson manufacturer homepage', async ({ dysonManufacturerPage }) => {
+test.only('Visual regression: Dyson manufacturer homepage', async ({ dysonManufacturerPage }) => {
   await expect(dysonManufacturerPage.h1Heading).toBeVisible();
   await dysonManufacturerPage.loadAllImages();
   await expect(dysonManufacturerPage.page).toHaveScreenshot('dyson-manufacturer-homepage.png', {
     fullPage: true,
     animations: 'disabled',
     caret: 'hide',
-    maxDiffPixelRatio: 0.01,
+    maxDiffPixelRatio: 0.001,
   });
 });
 

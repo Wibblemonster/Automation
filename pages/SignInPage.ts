@@ -16,7 +16,7 @@ export class SignInPage extends BasePage {
     this.nextButton = page.getByRole('button', { name: 'Next' });
     this.passwordField = page.locator('[id="Authentication_Password"]');
     this.signInButton = page.getByRole('button', { name: 'Sign in' });
-    this.userAvatar = page.getByRole('figure', { name: 'Avatar for Craig Brett' });
+    this.userAvatar = page.getByRole('figure', { name: 'Avatar for TJ Hooker' });
     this.heading = page.getByRole('heading', { name: 'Sign in using your NBS ID' });
     this.signInLink = page.getByRole('button', { name: 'Sign in' }).first();
   }
