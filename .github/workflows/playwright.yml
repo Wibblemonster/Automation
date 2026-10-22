@@ -4,6 +4,13 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      update_visual_baselines:
+        description: Generate Linux visual baselines (download the artifact and commit the PNGs)
+        required: true
+        type: boolean
+        default: false
 jobs:
   test:
     timeout-minutes: 60
@@ -18,7 +25,23 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test
+        env:
+          NBS_EMAIL: ${{ secrets.NBS_EMAIL }}
+          NBS_PASSWORD: ${{ secrets.NBS_PASSWORD }}
+        run: |
+          if [[ "${{ inputs.update_visual_baselines }}" == "true" ]]; then
+            npx playwright test --grep "Visual regression: Dyson manufacturer homepage" --update-snapshots
+          else
+            npx playwright test
+          fi
+      - name: Upload generated visual baselines
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dyson-visual-baselines-linux
+          path: screenshots/baselines/linux/
+          if-no-files-found: ignore
+          retention-days: 30
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
