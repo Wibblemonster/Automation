@@ -29,7 +29,7 @@ test.only('Visual regression: Dyson manufacturer homepage', async ({ dysonManufa
     fullPage: true,
     animations: 'disabled',
     caret: 'hide',
-    maxDiffPixelRatio: 0.001,
+    maxDiffPixels: 1000,
   });
 });
 
